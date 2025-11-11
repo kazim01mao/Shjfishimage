@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Traditional Chinese Colors */
+    --color-ink-black: #1a1a1a;
+    --color-rice-paper: #f5f1e8;
+    --color-ochre: #b8956a;
+    --color-azure: #4a6fa5;
+    --color-vermilion: #c8553d;
+    --color-indigo: #4a5899;
+    --color-mist: rgba(255, 255, 255, 0.3);
+    
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 10%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 83%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Noto Serif SC', 'STSong', 'SimSun', serif;
+  }
+  h1 {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 400;
+    font-family: 'Noto Serif SC', 'STKaiti', 'KaiTi', serif;
+    letter-spacing: 0.05em;
+  }
+  h2 {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    font-weight: 400;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: 0.05em;
+  }
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+}
+
+/* Ink brush texture overlay */
+.ink-texture {
+  position: relative;
+}
+
+.ink-texture::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(0,0,0,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,0,0,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(0,0,0,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Paper texture */
+.paper-texture {
+  background-color: #f5f1e8;
+  background-image: 
+    repeating-linear-gradient(0deg, rgba(139,119,101,0.03) 0px, transparent 1px, transparent 2px, rgba(139,119,101,0.03) 3px),
+    repeating-linear-gradient(90deg, rgba(139,119,101,0.03) 0px, transparent 1px, transparent 2px, rgba(139,119,101,0.03) 3px);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.3);
+}
