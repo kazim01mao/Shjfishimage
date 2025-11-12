@@ -1,18 +1,22 @@
 import { useState } from "react";
+import { SplashPage } from "./components/SplashPage";
 import { LandingPage } from "./components/LandingPage";
 import { MountainView } from "./components/MountainView";
-import { WaterView } from "./components/WaterView";
 import { CreatureDetail } from "./components/CreatureDetail";
 import { NavigationBar } from "./components/NavigationBar";
 import { mountainsData, fishDatabase } from "./data/shanhaijing-data";
 
-type Screen = "landing" | "mountain" | "water" | "detail";
+type Screen = "splash" | "landing" | "mountain" | "detail";
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>("landing");
+  const [currentScreen, setCurrentScreen] = useState<Screen>("splash");
   const [selectedMountain, setSelectedMountain] = useState<string>("");
   const [selectedWater, setSelectedWater] = useState<string>("");
   const [selectedFish, setSelectedFish] = useState<string>("");
+
+  const handleEnterSite = () => {
+    setCurrentScreen("landing");
+  };
 
   const handleMountainSelect = (mountainId: string) => {
     setSelectedMountain(mountainId);
@@ -21,12 +25,15 @@ export default function App() {
 
   const handleWaterSelect = (waterId: string) => {
     setSelectedWater(waterId);
-    setCurrentScreen("water");
-  };
-
-  const handleFishSelect = (fishId: string) => {
-    setSelectedFish(fishId);
-    setCurrentScreen("detail");
+    // Find the fish for this water and go directly to detail
+    const mountain = mountainsData.find(m => m.id === selectedMountain);
+    if (mountain) {
+      const water = mountain.waters.find(w => w.id === waterId);
+      if (water) {
+        setSelectedFish(water.fishId);
+        setCurrentScreen("detail");
+      }
+    }
   };
 
   const handleBackToLanding = () => {
@@ -42,11 +49,6 @@ export default function App() {
     setSelectedFish("");
   };
 
-  const handleBackToWater = () => {
-    setCurrentScreen("water");
-    setSelectedFish("");
-  };
-
   // Get current navigation info
   const mountain = mountainsData.find(m => m.id === selectedMountain);
   let water = null;
@@ -57,16 +59,20 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
-      {/* Navigation Bar - shown on all screens except landing */}
-      {currentScreen !== "landing" && (
+      {/* Splash Screen */}
+      {currentScreen === "splash" && (
+        <SplashPage onEnter={handleEnterSite} />
+      )}
+
+      {/* Navigation Bar - shown on all screens except splash and landing */}
+      {currentScreen !== "splash" && currentScreen !== "landing" && (
         <NavigationBar
-          currentLevel={currentScreen === "mountain" ? "mountain" : currentScreen === "water" ? "water" : "fish"}
+          currentLevel={currentScreen === "mountain" ? "mountain" : "fish"}
           mountainName={mountain?.name}
           waterName={water?.name}
           fishName={fish?.name}
           onNavigateHome={handleBackToLanding}
           onNavigateMountain={currentScreen !== "mountain" ? handleBackToMountain : undefined}
-          onNavigateWater={currentScreen === "detail" ? handleBackToWater : undefined}
         />
       )}
 
@@ -82,18 +88,11 @@ export default function App() {
         />
       )}
       
-      {currentScreen === "water" && (
-        <WaterView
-          waterId={selectedWater}
-          onBack={handleBackToMountain}
-          onFishSelect={handleFishSelect}
-        />
-      )}
-      
       {currentScreen === "detail" && (
         <CreatureDetail
           fishId={selectedFish}
-          onBack={handleBackToWater}
+          waterId={selectedWater}
+          onBack={handleBackToMountain}
         />
       )}
     </div>
